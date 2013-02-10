@@ -4,6 +4,8 @@ swipl.initialise();
 var m = swipl.module("myown");
 var m2 = swipl.module("mo2");
 
+m.DEBUG = true;
+
 var r, s, q;
 
 m.term_type("1");

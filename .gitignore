@@ -1,0 +1,10 @@
+build/
+diff-*.html
+test-args.txt
+*.suo
+~*.docx
+baseline-report.html
+*.swp
+build.json
+monaco.editor.json
+*.node

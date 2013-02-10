@@ -26,7 +26,6 @@
        "libswipl": ">=5.10.0"
    },
    "scripts": {
-       "install": "node-waf configure build",
        "test": "node tests/a.js"
    }
 }
