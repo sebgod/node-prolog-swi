@@ -32,6 +32,14 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 using namespace v8;
 using namespace node;
 
+#define LOG 1
+
+#ifdef LOG
+#define QLOG2(f, a1) if (obj->cb_log) obj->cb_log((f), (a1))
+#else
+#define QLOG2(_1, _2) while (false) 
+#endif
+
 Handle<Object> ExportSolution(term_t t, int len, Handle<Object> result_terms,
 							  Handle<Object> varnames);
 
@@ -122,6 +130,10 @@ void ExportTerm(term_t t, Handle<Object> result, Handle<Object> varnames) {
 			rval = PL_get_integer(t, &i);
 			val = Integer::New(i);
 			break;
+		case PL_LIST:
+			// TODO: rval
+			val = Array::New(0);
+			break;
 		default:
 			rval = PL_get_chars(t, &c, CVT_ALL);
 			val = String::New(c);
@@ -171,13 +183,15 @@ void Query::Init(Handle<Object> target) {
 	target->Set(String::NewSymbol("Query"), constructor);
 }
 
-#define QLOG2(f, a1) if (obj->cb_log) obj->cb_log((f), (a1))
-
 Handle<Value> Query::Open(const Arguments& args) {
 	HandleScope scope;
 
 	Query* obj = new Query();
+#ifdef LOG
 	obj->cb_log = &printf;
+#else
+	obj->cb_log = NULL;
+#endif
 
 	module_t module = GetModule(args, 2);
 	const char *module_name =
@@ -198,17 +212,20 @@ Handle<Value> Query::Open(const Arguments& args) {
 			Local<Value> v = terms->Get(i);
 
 			if (v->IsInt32()) {
-				QLOG2("%i", v->Int32Value());
+				QLOG2("%i : int", v->Int32Value());
 				rval = PL_put_integer(t, v->Int32Value());
 			} else if (v->IsNumber()) {
-				QLOG2("%f", v->NumberValue());
+				QLOG2("%f : double", v->NumberValue());
 				rval = PL_put_float(t, v->NumberValue());
+			} else if (v->IsArray()) {
+				QLOG2("%s", "[] : list");
+				PL_put_nil(t);
+				rval = true;
 			} else {
 				String::Utf8Value s(v);
 				QLOG2("%s", *s);
 				rval = PL_chars_to_term(*s, t);
 				int type = PL_term_type(t);
-				QLOG2(" [%i]", type);
 				switch (type) {
 				case PL_VARIABLE:
 					{
@@ -216,12 +233,20 @@ Handle<Value> Query::Open(const Arguments& args) {
 						int n = sprintf(ptrtostr, "%x", (intptr_t)t);
 						obj->varnames->Set(String::New(ptrtostr, n), String::New(*s));
 					}
+					QLOG2(" : %s", "var");
 					break;
+#ifdef LOG
 				case PL_ATOM:
+					QLOG2(" : %s", "atom");
+					break;
 				case PL_TERM:
+					QLOG2(" : %s", "term");
+					break;
 				default:
+					QLOG2(" : type#%d", type);
 					break;
 				}
+#endif
 			}
 			QLOG2("%s", i < numberOfTerms-1 ? ", " : "");
 			t = t + 1;
@@ -229,8 +254,7 @@ Handle<Value> Query::Open(const Arguments& args) {
 
 		obj->qid = PL_open_query(module, PL_Q_CATCH_EXCEPTION, p, obj->term);
 
-		if (obj->cb_log)
-			obj->cb_log(") #%li\n", obj->qid);
+		QLOG2(") #%li\n", obj->qid);
 
 		if (obj->qid == 0) {
 			ThrowException(
@@ -261,13 +285,11 @@ Handle<Value> Query::NextSolution(const Arguments& args) {
 
 	Query* obj = ObjectWrap::Unwrap<Query>(args.This());
 
-	if (obj->cb_log)
-		obj->cb_log("Query::NextSolution #%li", obj->qid);
+	QLOG2("Query::NextSolution #%li", obj->qid);
 
 	if (obj->open == OPEN) {
 		rval = PL_next_solution(obj->qid);
-		if (obj->cb_log)
-			obj->cb_log(": %i\n", rval);
+		QLOG2(": %i\n", rval);
 
 		if (rval) {
 			return scope.Close(
@@ -286,8 +308,7 @@ Handle<Value> Query::Exception(const Arguments& args) {
 	HandleScope scope;
 
 	Query* obj = ObjectWrap::Unwrap<Query>(args.This());
-	if (obj->cb_log)
-		obj->cb_log("Query::Exception #%li\n", obj->qid);
+	QLOG2("Query::Exception #%li\n", obj->qid);
 	term_t term = PL_exception(obj->qid);
 
 	if (term) {
@@ -302,8 +323,7 @@ Handle<Value> Query::Close(const Arguments& args) {
 
 	Query* obj = ObjectWrap::Unwrap<Query>(args.This());
 	if (obj->open == OPEN) {
-		if (obj->cb_log)
-			obj->cb_log("Query::Close #%li\n", obj->qid);
+		QLOG2("Query::Close #%li\n", obj->qid);
 		PL_close_query(obj->qid);
 		obj->open = CLOSED;
 	}
