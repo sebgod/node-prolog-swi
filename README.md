@@ -1,4 +1,5 @@
 node-swipl
+==========
 
 ### A node.js interface to the SWI-Prolog library
 
@@ -15,6 +16,8 @@ Missing SWI_HOME_DIR will result in
         Could not find system resources]
 
 If you like it, use and/or fork it. Corrections and improvements are welcome.
+
+[![Build Status](https://travis-ci.org/sebgod/node-prolog-swi.svg?branch=master)](https://travis-ci.org/sebgod/node-prolog-swi)
 
 Basic usage
 -----------
