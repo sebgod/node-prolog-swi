@@ -15,7 +15,7 @@
    "license": "LGPL",
    "repository": {
        "type": "git",
-       "url": "git@github.com:kloni/node-prolog-swi.git" 
+       "url": "git://github.com/sebgod/node-prolog-swi.git" 
    }, 
    "directories": {
        "src": "src",
@@ -26,6 +26,7 @@
        "libswipl": ">=5.10.0"
    },
    "scripts": {
+       "install": "node-gyp configure build",
        "test": "node tests/a.js"
    }
 }
