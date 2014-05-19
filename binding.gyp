@@ -1,16 +1,24 @@
 {
-  'targets': [
-	{
-	  'target_name': 'libswipl',
-	  'sources': [ 'src/libswipl.cc' ],
-	  'include_dirs': ["C:\Program Files\swipl\include"],
-	  
-       'conditions': [
-        ['OS=="win"', {
-          'libraries': ['C:\Program Files\swipl\lib\libswipl.dll.a']
-		  }
-		]
-	  ]
-	}
+  "targets": [
+    {
+      "target_name": "libswipl",
+      "product_prefix": "lib",
+      "sources": [
+        "./src/libswipl.cc"
+      ],
+      "include_dirs": [
+        "./src",
+        "$(SWI_HOME_DIR)"
+      ],
+      "direct_dependent_settings": {
+        "linkflags": [
+          "-D_FILE_OFFSET_BITS=64",
+          "-D_LARGEFILE_SOURCE"
+        ]
+      },
+      "libraries": [
+        "-lswipl"
+      ]
+    }
   ]
 }
