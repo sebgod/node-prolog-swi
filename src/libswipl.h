@@ -28,6 +28,8 @@
 #include <node.h>
 #include <SWI-Prolog.h>
 
+#define PRIxPTR_WIDTH ((int)(sizeof(intptr_t)*2))
+
 using namespace v8;
 using namespace node;
 
