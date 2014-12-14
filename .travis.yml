@@ -4,9 +4,8 @@ node_js:
   - "0.10"
 
 before_install:
+ - sudo apt-add-repository ppa:swi-prolog/devel
  - sudo apt-get install -y swi-prolog-nox
- - sudo ldconfig
- - pkg-config --list-all
  - pkg-config swipl --cflags
  - pkg-config swipl --cflags-only-I
  - pkg-config swipl --variable=includedir
