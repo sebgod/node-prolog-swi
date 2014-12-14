@@ -11,4 +11,4 @@ before_install:
  - pkg-config swipl --cflags-only-I
  - pkg-config swipl --variable=includedir
  - pkg-config swipl --variable=PLBASE
- - ls `pkg-config swipl --variable=PLBASE`/include
+ - ls `pkg-config swipl --variable=PLBASE`
