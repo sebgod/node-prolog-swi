@@ -1,8 +1,7 @@
 language: node_js
 
 node_js:
- - "0.10"
+  - "0.10"
 
 before_install:
- - sudo apt-get search swi
- - sudo apt-get install -y swipl
+  - sudo apt-get install -y swi-prolog-nox
