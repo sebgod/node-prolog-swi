@@ -1,3 +1,4 @@
+% vim: ft=prolog et
 erstes(E,[E|_]).
 mittleres(M,[_,_,M,_,_]).
 
