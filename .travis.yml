@@ -12,5 +12,5 @@ before_install:
  - pkg-config swipl --variable=includedir
  - pkg-config swipl --variable=libdir
  - pkg-config swipl --variable=PLBASE
- - sudo ln -srv `pkg-config swipl --variable=PLBASE` `pkg-config swipl --variable=libdir`/swi-plolog
+ - sudo ln -v -s `pkg-config swipl --variable=PLBASE` `pkg-config swipl --variable=libdir`/swi-plolog
  - ls `pkg-config swipl --variable=PLBASE`
