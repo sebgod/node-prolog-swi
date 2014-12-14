@@ -12,5 +12,6 @@ before_install:
  - pkg-config swipl --variable=includedir
  - pkg-config swipl --variable=libdir
  - pkg-config swipl --variable=PLBASE
+ - gcc -v
  - sudo ln -v -s `pkg-config swipl --variable=libdir`/swi-prolog `pkg-config swipl --variable=PLBASE`
  - ls `pkg-config swipl --variable=PLBASE`
