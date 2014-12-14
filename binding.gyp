@@ -5,7 +5,7 @@
         ["OS!='win'", {
             "targets": [
                 {
-                    "cflags_cc": [ "<!@(pkg-config swipl --cflags-only-other)" ],
+                    "cflags_cc": [ "-std=c++11", "<!@(pkg-config swipl --cflags-only-other)" ],
                     "type": "<(library)",
                     "target_name": "libswipl",
                     "product_prefix": "lib",
