@@ -14,7 +14,7 @@
                     ],
                     "include_dirs": [
                         "./src",
-                        "<!@(pkg-config swipl --cflags-only-I | sed s/^-I//g)"
+                        "<!@(pkg-config swipl --variable=PLBASE)/include"
                     ],
                     "direct_dependent_settings": {
                         "linkflags": [
