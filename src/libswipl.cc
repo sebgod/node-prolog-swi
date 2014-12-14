@@ -113,7 +113,7 @@ void ExportTerm(term_t t, Handle<Object> result, Handle<Object> varnames) {
 
 	{
 		char ptrtostr[8];
-		int n = sprintf(ptrtostr, "%0*"PRIxPTR, PRIxPTR_WIDTH, (intptr_t)t);
+		int n = sprintf(ptrtostr, "%0*" PRIxPTR, PRIxPTR_WIDTH, (intptr_t)t);
 		key = varnames->Get(String::New(ptrtostr, n));
 	}
 
@@ -230,7 +230,7 @@ Handle<Value> Query::Open(const Arguments& args) {
 				case PL_VARIABLE:
 					{
 						char ptrtostr[8];
-						int n = sprintf(ptrtostr, "%0*"PRIxPTR, PRIxPTR_WIDTH,  (intptr_t)t);
+						int n = sprintf(ptrtostr, "%0*" PRIxPTR, PRIxPTR_WIDTH,  (intptr_t)t);
 						obj->varnames->Set(String::New(ptrtostr, n), String::New(*s));
 					}
 					QLOG2(" : %s", "var");
