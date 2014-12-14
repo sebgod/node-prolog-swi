@@ -4,4 +4,5 @@ node_js:
   - "0.10"
 
 before_install:
-  - sudo apt-get install -y swi-prolog-nox
+ - sudo apt-get install -y swi-prolog-nox
+ - ls `pkg-config swipl --cflags-only-I | sed s/^-I//g`
