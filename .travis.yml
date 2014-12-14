@@ -9,4 +9,4 @@ before_install:
  - pkg-config --list-all
  - pkg-config swipl --cflags
  - pkg-config swipl --cflags-only-I
- - ls `pkg-config swipl --cflags-only-I | sed s/^-I//g`
+ - ls `pkg-config swipl --variable=includedir`
