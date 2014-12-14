@@ -6,7 +6,7 @@
             "targets": [
                 {
                     "cflags_cc": [ "<!@(pkg-config swipl --cflags-only-other)" ],
-                    #"type": "<(library)",
+                    "type": "<(library)",
                     "target_name": "libswipl",
                     "product_prefix": "lib",
                     "sources": [
@@ -14,7 +14,7 @@
                     ],
                     "include_dirs": [
                         "./src",
-                        "<!@(pkg-config swipl --cflags-only-I | sed s/-I//g)"
+                        "<!@(pkg-config swipl --cflags-only-I | sed s/^-I//g)"
                     ],
                     "direct_dependent_settings": {
                         "linkflags": [
