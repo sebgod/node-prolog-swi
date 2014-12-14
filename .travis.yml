@@ -4,5 +4,5 @@ node_js:
  - "0.10"
 
 before_install:
- - sudo apt-get query swipl
+ - sudo apt-get search swi
  - sudo apt-get install -y swipl
