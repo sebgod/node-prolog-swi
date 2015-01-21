@@ -1,5 +1,3 @@
-pushd %~dp0
-
-node-gyp configure build
-
-popd
+@pushd %~dp0
+    @call node-gyp configure build
+@popd
